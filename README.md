@@ -140,41 +140,6 @@ cpprest-simple-server/
 
 ![Architecture](docs/architecture.png)
 
-```
-                          ┌──────────────┐
-                          │     main     │
-                          └──────┬───────┘
-                                 │ creates ServerConfig, runs Application
-                                 ▼
-   ┌───────────────────────────────────────────────────────────────┐
-   │                        Application                              │
-   │   - registerControllers()   - listener open / wait / close     │
-   │   - signal handling (SIGINT / SIGTERM / SIGHUP)                 │
-   └───────────────┬─────────────────────────────┬─────────────────┘
-                   │ owns                         │ owns
-                   ▼                              ▼
-          ┌─────────────────┐            ┌──────────────────────────┐
-          │   ServerConfig  │            │         Router           │
-          │  (listen addr)  │            │  (method,path)->handler  │
-          └─────────────────┘            │  dispatch + CORS + 404   │
-                                         └────────────┬─────────────┘
-                                                      │ addRoute()
-                          ┌───────────────────────────┴───────────────┐
-                          │              Controllers                   │
-                          │   IController  ◀── ResourceController      │
-                          │                       ▲ (GET/POST/PUT/DEL) │
-                          │                       │ extends            │
-                          │                  HelloController           │
-                          └───────────────────────────────────────────┘
-
-   Request flow:
-   client ─▶ http_listener ─▶ Router.dispatch ─▶ Controller handler
-                                   │                    │
-                                   ├─ OPTIONS ─▶ 204 + CORS (preflight)
-                                   ├─ no match ─▶ 404 JSON
-                                   └─ http_response ─▶ addCorsHeaders ─▶ reply
-```
-
 ### Key Components
 
 1. **main**: Builds `ServerConfig` from argv, constructs and runs `Application`.
