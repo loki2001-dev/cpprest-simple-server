@@ -67,3 +67,15 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# Claude Code
+.claude/
+
+# Editor
+.vscode/
+.idea/
+
+# cpprest dependency build artifacts (regenerate via 3rdparty/cpprest/build.sh)
+/3rdparty/cpprest/include/
+/3rdparty/cpprest/lib/
+/3rdparty/cpprest/cpprestsdk-2.10.19/
