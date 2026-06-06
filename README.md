@@ -12,6 +12,18 @@ A lightweight, layered HTTP/JSON server built on `web::http::experimental::liste
 - Designed for end-to-end solution
 - Compatible with Ubuntu 22.04 or later
 
+## Architecture
+
+![Architecture](docs/architecture.png)
+
+### Key Components
+
+1. **main**: Builds `ServerConfig` from argv, constructs and runs `Application`.
+2. **Application**: Assembles config, router, and controllers; owns the HTTP listener lifecycle and shutdown signals.
+3. **ServerConfig**: Holds the listen address and parses command-line arguments.
+4. **Router**: Maps `(method, path)` to handlers, dispatches requests, and injects CORS headers / 404 responses centrally.
+5. **Controllers**: `IController` defines the contract; `ResourceController` abstracts the four HTTP verbs (default `405`); domain controllers (e.g. `HelloController`) override only what they support.
+
 ## Features
 
 - **Layered Architecture**: Config, Router, Controller, and Application layers with clear, one-way boundaries
@@ -135,18 +147,6 @@ cpprest-simple-server/
 ├── CMakeLists.txt                          # Build configuration (Linux, cpprest linkage)
 └── build.sh                                # Clean -> configure -> build -> run
 ```
-
-## Architecture
-
-![Architecture](docs/architecture.png)
-
-### Key Components
-
-1. **main**: Builds `ServerConfig` from argv, constructs and runs `Application`.
-2. **Application**: Assembles config, router, and controllers; owns the HTTP listener lifecycle and shutdown signals.
-3. **ServerConfig**: Holds the listen address and parses command-line arguments.
-4. **Router**: Maps `(method, path)` to handlers, dispatches requests, and injects CORS headers / 404 responses centrally.
-5. **Controllers**: `IController` defines the contract; `ResourceController` abstracts the four HTTP verbs (default `405`); domain controllers (e.g. `HelloController`) override only what they support.
 
 ## Adding a New Controller
 
