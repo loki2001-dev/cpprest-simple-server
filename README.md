@@ -138,6 +138,8 @@ cpprest-simple-server/
 
 ## Architecture
 
+![Architecture](docs/architecture.png)
+
 ```
                           ┌──────────────┐
                           │     main     │
